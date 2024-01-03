@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -40,11 +42,12 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.7"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes.add("/META-INF/gradle/*")
         }
     }
 }
@@ -59,6 +62,23 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    //Hilt
+    implementation(libs.android.hilt)
+    kapt(libs.android.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson.convertor)
+    implementation(libs.okhttp3.interceptor)
+
+    //coil
+    implementation(libs.coil)
+
+    //compose lifecycle
+    implementation(libs.androidx.lifecycle.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +86,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+kapt{
+    correctErrorTypes = true
 }
