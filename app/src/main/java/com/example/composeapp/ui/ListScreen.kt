@@ -32,30 +32,41 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.composeapp.Utils.CommonMethods.getColorByStatus
+import com.example.composeapp.data.DataState
 import com.example.composeapp.data.model.Characters
 import com.example.composeapp.viewmodel.CharacterViewModel
 
 @Composable
 fun CharacterList(modifier: Modifier= Modifier){
     val viewModel = hiltViewModel<CharacterViewModel>()
-    val response by viewModel.characters.collectAsStateWithLifecycle(
-        initialValue = emptyList()
-    )
+    val response by viewModel.dataState.collectAsStateWithLifecycle()
 
-    if(response.isEmpty()){
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center){
-            CircularProgressIndicator()
-        }
-    }
-    else
-        LazyColumn {
-            items(response){item ->
-                CharacterItem(modifier = modifier,item)
+    when(response){
+        is DataState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center){
+                CircularProgressIndicator()
             }
         }
+
+        is DataState.Error -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center){
+                Text(text = (response as DataState.Error).exception.localizedMessage ?: "Something went wrong")
+            }
+        }
+
+        is DataState.Success -> {
+            LazyColumn {
+                items((response as DataState.Success<Characters>).data.results){ item ->
+                    CharacterItem(modifier = modifier,item)
+                }
+            }
+        }
+    }
+
 }
 
 @Composable
