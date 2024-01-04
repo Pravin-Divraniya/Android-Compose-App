@@ -1,7 +1,6 @@
 package com.example.composeapp.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -18,7 +16,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,44 +26,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.example.composeapp.Utils.CommonMethods.getColorByStatus
-import com.example.composeapp.data.DataState
 import com.example.composeapp.data.model.Characters
 import com.example.composeapp.viewmodel.CharacterViewModel
 
 @Composable
 fun CharacterList(modifier: Modifier= Modifier){
     val viewModel = hiltViewModel<CharacterViewModel>()
-    val response by viewModel.dataState.collectAsStateWithLifecycle()
+    val response = viewModel.dataState.collectAsLazyPagingItems()
 
-    when(response){
-        is DataState.Loading -> {
+    when(response.loadState.refresh){
+        is LoadState.Error -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center){
+                Text(text = (response.loadState.refresh as LoadState.Error).error.message ?: "Something went wrong")
+            }
+        }
+        LoadState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center){
                 CircularProgressIndicator()
             }
         }
-
-        is DataState.Error -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center){
-                Text(text = (response as DataState.Error).exception.localizedMessage ?: "Something went wrong")
-            }
-        }
-
-        is DataState.Success -> {
+        is LoadState.NotLoading -> {
             LazyColumn {
-                items((response as DataState.Success<Characters>).data.results){ item ->
-                    CharacterItem(modifier = modifier,item)
+                items(response.itemCount){ item ->
+                    CharacterItem(modifier = modifier, response[item])
                 }
             }
         }
     }
-
 }
 
 @Composable

@@ -13,7 +13,9 @@ hiltNavigationCompose = "1.1.0"
 retrofit = "2.9.0"
 loggingInterceptor = "5.0.0-alpha.2"
 coil = "2.5.0"
-lifecycleRuntimeCompose = "2.6.0"
+lifecycleRuntimeCompose = "2.6.2"
+pagingVersion = "3.2.1"
+pagingComposeVersion = "3.3.0-alpha02"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +40,8 @@ retrofit = {group = "com.squareup.retrofit2", name="retrofit", version.ref = "re
 retrofit-gson-convertor = {group = "com.squareup.retrofit2", name="converter-gson", version.ref = "retrofit"}
 okhttp3-interceptor = {group="com.squareup.okhttp3",name="logging-interceptor", version.ref="loggingInterceptor"}
 coil = {group = "io.coil-kt", name="coil-compose",version.ref = "coil"}
+androidx-paging = {group = "androidx.paging",name="paging-runtime", version.ref="pagingVersion"}
+androidx-paging-compose = {group = "androidx.paging",name="paging-compose", version.ref="pagingComposeVersion"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

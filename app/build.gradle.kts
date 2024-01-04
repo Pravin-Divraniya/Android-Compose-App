@@ -73,11 +73,15 @@ dependencies {
     implementation(libs.retrofit.gson.convertor)
     implementation(libs.okhttp3.interceptor)
 
-    //coil
+    //Coil
     implementation(libs.coil)
 
-    //compose lifecycle
+    //Compose lifecycle
     implementation(libs.androidx.lifecycle.compose)
+
+    //Paging
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

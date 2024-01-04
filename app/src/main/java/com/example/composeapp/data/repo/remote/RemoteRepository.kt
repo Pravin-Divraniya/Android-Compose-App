@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RemoteRepository:Repository {
-    suspend fun getCharacterData(): Response<Characters>
+    suspend fun getCharacterData(page:Int): Response<Characters>
 }

@@ -1,6 +1,8 @@
 package com.example.composeapp.di
 
 import com.example.composeapp.Utils
+import com.example.composeapp.data.paging.CharacterPageSource
+import com.example.composeapp.data.repo.remote.RemoteRepository
 import com.example.composeapp.data.repo.remote.RemoteRepositoryImpl
 import com.example.composeapp.data.source.remote.ApiService
 import dagger.Module
@@ -14,9 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
-class AppModule {
+@InstallIn(SingletonComponent::class)
+object AppModule {
     @Singleton
     @Provides
     fun provideBaseUrl() = Utils.Constant.BASE_URL
@@ -58,5 +60,6 @@ class AppModule {
     }
     @Singleton
     @Provides
-    fun provideRemoteRepository(apiService: ApiService) = RemoteRepositoryImpl(apiService)
+    fun provideRemoteRepository(apiService: ApiService):RemoteRepository =
+        RemoteRepositoryImpl(apiService)
 }
