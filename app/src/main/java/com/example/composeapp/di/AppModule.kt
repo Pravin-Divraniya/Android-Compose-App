@@ -1,6 +1,7 @@
 package com.example.composeapp.di
 
 import com.example.composeapp.Utils
+import com.example.composeapp.data.repo.remote.RemoteRepository
 import com.example.composeapp.data.repo.remote.RemoteRepositoryImpl
 import com.example.composeapp.data.source.remote.ApiService
 import dagger.Module
@@ -23,11 +24,11 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient:OkHttpClient,baseUrl:String) =
+    fun provideRetrofit(okHttpClient:OkHttpClient,baseUrl:String): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -58,5 +59,5 @@ class AppModule {
     }
     @Singleton
     @Provides
-    fun provideRemoteRepository(apiService: ApiService) = RemoteRepositoryImpl(apiService)
+    fun provideRemoteRepository(apiService: ApiService):RemoteRepository = RemoteRepositoryImpl(apiService)
 }
