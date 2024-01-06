@@ -2,6 +2,7 @@ package com.example.composeapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.example.composeapp.Utils.CommonMethods.getColorByStatus
 import com.example.composeapp.data.model.Characters
+import com.example.composeapp.extension.pagingLoadStateItem
 import com.example.composeapp.viewmodel.CharacterViewModel
 
 @Composable
@@ -40,24 +42,55 @@ fun CharacterList(modifier: Modifier= Modifier){
 
     when(response.loadState.refresh){
         is LoadState.Error -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center){
+            CommonContainer(
+                modifier = Modifier.fillMaxSize()){
                 Text(text = (response.loadState.refresh as LoadState.Error).error.message ?: "Something went wrong")
             }
         }
         LoadState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center){
+            CommonContainer(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator()
             }
         }
         is LoadState.NotLoading -> {
             LazyColumn {
+                pagingLoadStateItem(
+                    loadState = response.loadState.prepend,
+                    keySuffix = "prepend",
+                    loading = {
+                              CommonContainer(
+                                  modifier = Modifier
+                                      .fillMaxWidth()
+                                      .padding(top=4.dp, bottom = 16.dp)) {
+                                  CircularProgressIndicator()
+                              }
+                    },
+                    error = {
+                        CommonContainer(modifier = Modifier.fillMaxWidth()) {
+                            Text(text = "Error in paging load")
+                        }
+                    }
+                )
                 items(response.itemCount){ item ->
                     CharacterItem(modifier = modifier, response[item])
                 }
+                pagingLoadStateItem(
+                    loadState = response.loadState.append,
+                    keySuffix = "append",
+                    loading = {
+                        CommonContainer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top=4.dp, bottom = 16.dp)) {
+                            CircularProgressIndicator()
+                        }
+                    },
+                    error = {
+                        CommonContainer(modifier = Modifier.fillMaxWidth()) {
+                            Text(text = "Error in paging load")
+                        }
+                    }
+                )
             }
         }
     }
@@ -116,6 +149,14 @@ fun ItemCommonInfo(title:String = "Last known Location:",data:String="Earth"){
         .padding(top = 8.dp)) {
         Text(text = title, color = Color.LightGray, fontSize = 12.sp)
         Text(text = data, color = Color.White, fontSize = 14.sp)
+    }
+}
+@Composable
+fun CommonContainer(modifier: Modifier,
+                      contentAlignment:Alignment = Alignment.Center,
+                      composable:(@Composable BoxScope.() -> Unit)){
+    Box(modifier = modifier,contentAlignment = contentAlignment){
+        composable.invoke(this)
     }
 }
 
