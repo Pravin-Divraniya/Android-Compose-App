@@ -1,4 +1,4 @@
-# Compose example + MVVM with repository patter + Hilt
+# Compose example + MVVM with repository pattern + Hilt
 
 This example demonstrates MVVM architecture implementation in Jetpack Compose using different architecture components and DI frameworks like Hilt. In branch featuer/with-paging contains example of Jetpack Compose with Pagination using [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) library of Architecture component.
 
