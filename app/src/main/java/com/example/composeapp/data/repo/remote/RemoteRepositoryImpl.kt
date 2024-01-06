@@ -9,8 +9,7 @@ import javax.inject.Inject
 class RemoteRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ):RemoteRepository {
-    override suspend fun getCharacterData(page: Int): Response<Characters> {
-        delay(2000)
-        return apiService.getCharacters(page)
-    }
+    override suspend fun getCharacterData(page: Int): Response<Characters> =
+        apiService.getCharacters(page)
+
 }
