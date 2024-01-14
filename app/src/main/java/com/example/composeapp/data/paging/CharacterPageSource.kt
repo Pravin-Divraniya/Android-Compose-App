@@ -10,9 +10,9 @@ class CharacterPageSource(
 ): PagingSource<Int, Characters.Result>() {
 
     override fun getRefreshKey(state: PagingState<Int, Characters.Result>): Int? {
-        return state.anchorPosition?.let { position ->
-            val anchorPage = state.closestPageToPosition(position)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        return state.anchorPosition?.let {
+            state.closestPageToPosition(it)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 
