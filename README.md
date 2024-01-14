@@ -13,13 +13,11 @@ You'll find:
 
 This project hosts different sample codes in separate repository branches.
 
-## Screen:
-<img align="left" src="https://github.com/Pravin-Divraniya/Android-Compose-App/blob/feature/with-paging/screenshots/Screenshot_20240106_203435.png" alt="An image illustraating the UI of the app" width="288" height="512"/>
-
-
-
 ### Samples - Kotlin
 | Sample                                                                                             | Description                                                                                                                                                                                                                                                                                             |
 |----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [main](https://github.com/Pravin-Divraniya/Android-Compose-App/tree/main)                         | A sample Jetpack Compose using MVVM, using architecture components.                                                                                                                                                                                                                                     |
 | [feature/with-paging](https://github.com/Pravin-Divraniya/Android-Compose-App/tree/feature/with-paging) | A sample Jetpack Compose using MVVM, using architecture components with [paging 3 library](https://developer.android.com/topic/libraries/architecture/paging/v3-overview). API:- [rick and morty api](https://rickandmortyapi.com/). It uses Kotlin, Coroutines, Flow, Retrofit, and Navigation Components. |
+
+## Screen:
+<img align="left" src="https://github.com/Pravin-Divraniya/Android-Compose-App/blob/feature/with-paging/screenshots/Screenshot_20240106_203435.png" alt="An image illustraating the UI of the app" width="288" height="512"/>
