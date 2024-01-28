@@ -48,15 +48,32 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}  
       - run: echo "Build status report=${{ job.status }}."
+      # Runs a set of commands using the runners shell
       - name: Upload App Bundle
         uses: actions/upload-artifact@v1
         with:
           name: aab
           path: ${{steps.sign_aab.outputs.signedReleaseFile}}
-
-      # Runs a set of commands using the runners shell
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.3
+      - name: Download AAB from build
+        uses: actions/download-artifact@v1
         with:
-          name: dsTemplate.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+           name: aab
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+           tag_name: Tag Name
+           release_name: Release Name
+      - name: Upload Release AAB
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: aab/app-release.aab
+          asset_name: ${{ github.event.repository.name }}.aab
+          asset_content_type: application/zip
+      - run: echo "Upload returned with status=${{ job.status }}."
