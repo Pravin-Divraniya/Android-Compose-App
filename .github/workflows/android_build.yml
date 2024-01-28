@@ -68,8 +68,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-           tag_name: Tag Name
-           release_name: Release Name
+           tag_name: v1.0.0
+           release_name: First release
       - name: Upload Release AAB
         id: upload_release_asset
         uses: actions/upload-release-asset@v1.0.1
