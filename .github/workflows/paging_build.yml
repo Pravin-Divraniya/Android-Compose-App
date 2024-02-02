@@ -43,11 +43,11 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Grant execute permissions for gradlew //this step is only for macOS
-        working-directory: ./feature/with-paging
+        working-directory: origin/feature/with-paging
         run: chmod +x ./gradlew
 
       - name: Bundle 'release' with Gradle
-        working-directory: ./feature/with-paging
+        working-directory: origin/feature/with-paging
         run: ./gradlew bundleRelease
       
       - name: Sign AAB
