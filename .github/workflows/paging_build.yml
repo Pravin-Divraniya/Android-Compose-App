@@ -43,10 +43,17 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Grant execute permissions for gradlew //this step is only for macOS
-        run: chmod +x ./gradlew 
+        run: chmod +x ./gradlew
+      
+      - name: Init gradle wrapper
+        run: gradle wrapper
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
 
       - name: Bundle 'release' with Gradle
         run: ./gradlew bundleRelease
+      
       - name: Sign AAB
         id: sign_aab
         uses: r0adkll/sign-android-release@v1
