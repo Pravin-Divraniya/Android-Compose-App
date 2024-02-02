@@ -42,8 +42,8 @@ jobs:
           java-version: '17'
 
       # Runs a single command using the runners shell
-      - name: Grant execute permissions for gradlew //this step is only for macOS
-        run: chmod +x ./gradlew 
+      # - name: Grant execute permissions for gradlew //this step is only for macOS
+        # run: chmod +x ./gradlew 
 
       - name: Bundle 'release' with Gradle
         run: ./gradlew bundleRelease
