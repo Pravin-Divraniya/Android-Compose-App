@@ -28,7 +28,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
         with:
           repository: Pravin-Divraniya/Android-Compose-App
           path: origin
@@ -43,11 +43,11 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Grant execute permissions for gradlew //this step is only for macOS
-        working-directory: ./origin/feature/with-paging
+        working-directory: ./
         run: chmod +x ./gradlew
 
       - name: Bundle 'release' with Gradle
-        working-directory: ./origin/feature/with-paging
+        working-directory: ./
         run: ./gradlew bundleRelease
       
       - name: Sign AAB
